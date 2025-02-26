@@ -22,11 +22,11 @@ No crazy build systems, no Makefiles—just **raw power at your fingertips!**
 ✅ **Synced Across Projects:** One submodule to **rule them all, update them all, and sync them all!**  
 ✅ **No Bloat, No Nonsense:** Just `.h` and `.cpp` files. Clean, mean, and ready to roll!  
 
-## ⚔️ **HOW TO USE?** **(EASY LIKE A CLEAN RIGHT HOOK! 🥊💥)**  
+## ⚔️ **HOW TO USE?** **(EASY LIKE A CLEAN RIGHT HOOK 🥊💥)**  
 
 💾 **Step 1:** Clone this champion into your project include folder like a pro:  
 ```sh
-git submodule add https://github.com/TilenS6/mega_utils.git libs/mega_utils
+git submodule add https://github.com/TilenS6/mega_utils.git include/mega_utils
 git submodule update --init --recursive
 ```
 
