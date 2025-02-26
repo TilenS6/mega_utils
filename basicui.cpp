@@ -2,7 +2,7 @@
 
 BUI::BUI() {
     for (int i = 0; i < MAX_FONT_SIZE; ++i)
-        Sans[i] = TTF_OpenFont("fonts/open-sans/OpenSans-Regular.ttf", i);
+        Sans[i] = TTF_OpenFont(FONT_PATH, i);
 }
 void BUI::destroy() {
     for (int i = 0; i < MAX_FONT_SIZE; ++i)

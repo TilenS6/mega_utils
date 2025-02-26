@@ -5,6 +5,7 @@
 
 using namespace std;
 #define MAX_FONT_SIZE 128
+#define FONT_PATH "fonts/open-sans/OpenSans-Regular.ttf"
 
 class BUI {
     Camera *c = nullptr;
