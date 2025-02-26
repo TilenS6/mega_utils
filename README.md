@@ -32,7 +32,7 @@ git submodule update --init --recursive
 
 ⚡ **Step 2:** Include what you need and UNLEASH THE POWER!  
 ```cpp
-#include "mega_utils/all_utils.h"  // EVERYTHING!!!
+#include "mega_utils/utils_all.h"  // EVERYTHING!!!
 ```
 
 🔥 **Step 3:** Compile like a boss!  
