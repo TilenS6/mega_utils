@@ -1,10 +1,16 @@
 #pragma once
-#include <iostream>
+
 #include <chrono>
 #include <unordered_map>
 #include <string>
+#include <mutex>
 
-#define PROFILE_FUNCTION() ProfileScope profileScope(__func__)
+#include <iostream>
+#include <thread>
+#include <sstream>
+#include <cstdlib>
+#include <unistd.h>
+
 
 class Profiler {
 public:
@@ -13,23 +19,15 @@ public:
         double totalTime = 0.0;
     };
 
-    ~Profiler();
+    static void record(const std::string& functionName, double duration);
+    static void report();
+    static void setMainThread();
+    static bool isMainThread();
+    static std::string resolveFunctionName(void* func); // 🔥 New function to get function names
 
-    void record(const std::string &, double);
-    void report();
 private:
-    //static std::unordered_map<std::string, ProfileData> &getData();
-    std::unordered_map<std::string, ProfileData> &getData();
-    std::unordered_map<std::string, ProfileData> data;
-
-} __profiler;
-
-class ProfileScope {
-    std::string functionName;
-    std::chrono::high_resolution_clock::time_point start;
-public:
-    ProfileScope(const std::string &);
-    ~ProfileScope();
+    static std::unordered_map<std::string, ProfileData>& getData();
 };
 
-#include "profiler.cpp"
+extern "C" void __cyg_profile_func_enter(void* func, void* callsite);
+extern "C" void __cyg_profile_func_exit(void* func, void* callsite);
