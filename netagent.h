@@ -1,6 +1,8 @@
+#pragma once
+#ifndef __linux__ 
+
 #define WIN32_LEAN_AND_MEAN
 
-#pragma once
 
 #include <windows.h>
 #include <ws2tcpip.h>
@@ -107,3 +109,5 @@ public:
 #include "netagent_c.cpp"
 #include "netagent_s.cpp"
 #include "netagent_s_udp.cpp"
+
+#endif // __linux__

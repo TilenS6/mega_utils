@@ -1,4 +1,6 @@
 #pragma once
+#include <cstdint>
+#include <cstring>
 #include <iostream>
 using namespace std;
 

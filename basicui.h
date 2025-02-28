@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #include "camera.h"
 
 using namespace std;
