@@ -3,7 +3,6 @@
 #include <chrono>
 #include <unordered_map>
 #include <string>
-#include <mutex>
 
 #define PROFILE_FUNCTION() ProfileScope profileScope(__func__)
 
@@ -16,11 +15,14 @@ public:
 
     ~Profiler();
 
-    static void record(const std::string &, double);
-    static void report();
+    void record(const std::string &, double);
+    void report();
 private:
-    static std::unordered_map<std::string, ProfileData> &getData();
-};
+    //static std::unordered_map<std::string, ProfileData> &getData();
+    std::unordered_map<std::string, ProfileData> &getData();
+    std::unordered_map<std::string, ProfileData> data;
+
+} __profiler;
 
 class ProfileScope {
     std::string functionName;

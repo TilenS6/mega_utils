@@ -1,4 +1,5 @@
 #pragma once
+#include "profiler.h"
 #include "basicui.h"
 #include "camera.h"
 #include "FastCont.h"
@@ -10,4 +11,3 @@
 #include "smooth.h"
 #include "sprites.h"
 #include "timer.h"
-#include "profiler.h"

@@ -5,9 +5,6 @@ Profiler::~Profiler() {
 }
 
 void Profiler::record(const std::string &functionName, double duration) {
-    static std::mutex mutex;
-    std::lock_guard<std::mutex> lock(mutex);
-
     auto &data = getData()[functionName];
     data.callCount++;
     data.totalTime += duration;
@@ -23,7 +20,7 @@ void Profiler::report() {
 }
 
 std::unordered_map<std::string, Profiler::ProfileData> &Profiler::getData() {
-    static std::unordered_map<std::string, ProfileData> data;
+    // static std::unordered_map<std::string, ProfileData> data;
     return data;
 }
 
@@ -34,5 +31,5 @@ ProfileScope::ProfileScope(const std::string &funcName) : functionName(funcName)
 ProfileScope::~ProfileScope() {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
-    Profiler::record(functionName, duration.count());
+    __profiler.record(functionName, duration.count());
 }
