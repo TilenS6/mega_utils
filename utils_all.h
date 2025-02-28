@@ -10,3 +10,4 @@
 #include "smooth.h"
 #include "sprites.h"
 #include "timer.h"
+#include "profiler.h"
