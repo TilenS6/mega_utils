@@ -10,7 +10,7 @@ void Camera::assignWindow(SDL_Window *_win) {
 }       
 
 int Camera::simplyInit(int _w = CAM_DEFAULT_W, int _h = CAM_DEFAULT_H, const char *title = "Simply Good", const char *iconPath = nullptr, Uint32 flags = CAM_DEFAULT_FLAGS) {
-    PROFILE_FUNCTION();
+    //PROFILE_FUNCTION();
     w = _w;
     h = _h;
 

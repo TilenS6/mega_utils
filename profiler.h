@@ -5,29 +5,16 @@
 #include <string>
 #include <mutex>
 
-#include <iostream>
-#include <thread>
-#include <sstream>
-#include <cstdlib>
-#include <unistd.h>
+inline void profiler_init() __attribute__((no_instrument_function));
+inline void profiler_record(const std::string& functionName, double duration) __attribute__((no_instrument_function));
+inline void profiler_report() __attribute__((no_instrument_function));
+inline bool profiler_is_main_thread() __attribute__((no_instrument_function));
+inline std::string profiler_resolve_function_name(void* func) __attribute__((no_instrument_function));
 
+extern "C" void __cyg_profile_func_enter(void* func, void* callsite) __attribute__((no_instrument_function));;
+extern "C" void __cyg_profile_func_exit(void* func, void* callsite) __attribute__((no_instrument_function));;
 
-class Profiler {
-public:
-    struct ProfileData {
-        size_t callCount = 0;
-        double totalTime = 0.0;
-    };
+extern std::string program_name;
 
-    static void record(const std::string& functionName, double duration);
-    static void report();
-    static void setMainThread();
-    static bool isMainThread();
-    static std::string resolveFunctionName(void* func); // 🔥 New function to get function names
-
-private:
-    static std::unordered_map<std::string, ProfileData>& getData();
-};
-
-extern "C" void __cyg_profile_func_enter(void* func, void* callsite);
-extern "C" void __cyg_profile_func_exit(void* func, void* callsite);
+// Include implementation at the end
+#include "profiler.cpp"
