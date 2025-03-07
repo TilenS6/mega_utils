@@ -71,10 +71,15 @@ extern "C" void __cyg_profile_func_exit(void *func, void *callsite) {
 
 void profiler_init() {
 	cout << "[Profiler] Auto setup complete, hooks are working.\n";
-	get_program_base_address();
+	profiler_resolve_function_name((void *)profiler_init);
 }
 
+#include <execinfo.h>
+#include <stdio.h>
+#include <unistd.h>
+
 string profiler_resolve_function_name(void *func) {
+	/*
 	lock_guard<mutex> lock(cache_mutex);
 
 	if (cache.find(func) != cache.end()) {
@@ -99,6 +104,15 @@ string profiler_resolve_function_name(void *func) {
 	result.erase(result.find_last_not_of("\n") + 1);
 	cache[func] = result;
 	return result;
+	*/
+
+	string test = *backtrace_symbols(&func, 1);
+	cout << test << endl;
+
+	//backtrace_symbols_fd(&func, 1, STDOUT_FILENO);
+    //printf("%p", func);
+
+	return "";
 }
 
 void profiler_record(const string &functionName, double duration) {
@@ -124,7 +138,7 @@ void profiler_report() {
 #error "This code is not yet compatible with Windows!"
 #elif __linux__
 
-string get_program_base_address() {
+string get_program_base_address(void *func) { // !! not working yet
 	ostringstream command;
 	command << "cat /proc/self/maps";
 	FILE *pipe = popen(command.str().c_str(), "r");
@@ -140,6 +154,7 @@ string get_program_base_address() {
 
 	cout << result << endl;
 	return string(result);
+
 }
 
 #define GET_PROGRAM_BASE_ADDRESS
