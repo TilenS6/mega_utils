@@ -74,41 +74,17 @@ void profiler_init() {
 	// profiler_resolve_function_name((void *)main);
 }
 
-string profiler_resolve_function_name(void *func) {
-	/*
-	lock_guard<mutex> lock(cache_mutex);
 
+string profiler_resolve_function_name(void *func) {
 	if (cache.find(func) != cache.end()) {
+		// cout << "Cache hit: " << cache[func] << endl;
 		return cache[func];
 	}
-
-	ostringstream command;
-	command << "addr2line -e " << program_name << " -f -p " << func;
-	cout << "addr2line -e " << program_name << " -f -p " << func << endl;
-
-	FILE *pipe = popen(command.str().c_str(), "r");
-	if (!pipe)
-		return "Unknown Function";
-
-	char buffer[256];
-	string result;
-	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-		result += buffer;
-	}
-	pclose(pipe);
-
-	result.erase(result.find_last_not_of("\n") + 1);
-	cache[func] = result;
-	return result;
-	*/
-
-	// backtrace_symbols_fd(&func, 1, STDOUT_FILENO);
-	// printf("%p", func);
 
 	string backtrace = *backtrace_symbols(&func, 1);
 	// cout << backtrace << endl;
 
-	// TODOOO: use command "nm main" to get all function addresses and names
+	// TO-DO: use command "nm main" to get all function addresses and names => not that great f. names
 
 	// Extracting offset from string
 	/*  /home/tilens/Documents/Projects/SDL2-mega_utils-Template/bin/main(+0x5b00) [0x555555559b00]  ->  5b00 */
@@ -124,8 +100,10 @@ string profiler_resolve_function_name(void *func) {
 
 	// check if offset contains only hex characters
 	if (offset.find_first_not_of("+x0123456789abcdef") != string::npos) {
+		cache[func] = offset;
 		return offset; // this is already a function name approximation
 	}
+	// cout << "Finding a function...\n";
 
 	// Extracting function name from offset
 	ostringstream command;
@@ -157,8 +135,9 @@ string profiler_resolve_function_name(void *func) {
 		++program_name_i;
 	}
 
-	cout << "out: " << out << endl;
+	// cout << "out: " << out << endl;
 
+	cache[func] = out;
 	return out;
 }
 
@@ -166,16 +145,6 @@ void profiler_record(const string &functionName, double duration) {
 	lock_guard<mutex> lock(profiler_mutex);
 	profiler_call_count[functionName]++;
 	profiler_total_time[functionName] += duration;
-}
-
-void profiler_report() {
-	cout << "\n--- Profiling Report (Max Depth = " << PROFILER_SET_MAX_DEPTH << ") ---\n";
-	for (const auto &[func, calls] : profiler_call_count) {
-		double totalTime = profiler_total_time[func];
-		cout << func << " | Calls: " << calls
-			 << " | Total Time: " << totalTime << "s"
-			 << " | Avg Time: " << (totalTime / calls) << "s\n";
-	}
 }
 
 #ifdef _WIN32
@@ -204,3 +173,38 @@ string get_program_base_address(void *func) {  // !! not working yet
 #else
 #error "This code is not compatible with your OS!"
 #endif
+
+void profiler_report() {
+	vector<pair<string, double>> sortedFunctions;
+
+	for (const auto &[func, calls] : profiler_call_count) {
+		double totalTime = profiler_total_time[func];
+		double avgTime = totalTime / calls;
+		sortedFunctions.emplace_back(func, avgTime);
+	}
+
+	sort(sortedFunctions.begin(), sortedFunctions.end(),
+		 [](const pair<string, double> &a, const pair<string, double> &b) {
+			 return a.second > b.second; // Sort in descending order of average time
+		 });
+
+	cout << "\n-------- Profiling Report (Sorted by Avg Time, Max Depth = " << PROFILER_SET_MAX_DEPTH << ") --------\n\n";
+	for (const auto &[func, avgTime] : sortedFunctions) {
+		double totalTime = profiler_total_time[func];
+		int calls = profiler_call_count[func];
+
+		string fName = func.substr(0, func.find(" at "));
+		string fPath = func.substr(func.find(" at ") + 4);
+		cout << "Calls: " << calls << " | Total Time: " << totalTime << "s" << " | Avg Time: " << avgTime << "s\n";
+		cout << "\t" << fName << "\n\t" << fPath << "\n\n";
+	}
+	/*
+	cout << "\n--- Profiling Report (Max Depth = " << PROFILER_SET_MAX_DEPTH << ") ---\n";
+	for (const auto &[func, calls] : profiler_call_count) {
+		double totalTime = profiler_total_time[func];
+		cout << func << " | Calls: " << calls
+			 << " | Total Time: " << totalTime << "s"
+			 << " | Avg Time: " << (totalTime / calls) << "s\n";
+	}
+	*/
+}
