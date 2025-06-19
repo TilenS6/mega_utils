@@ -58,3 +58,4 @@ BOOM. You're always running the latest and the greatest!
 
 # TODOs
 - Cross-platform network wrapper (boost.asio)
+- Document everything 😭
