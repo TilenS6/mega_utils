@@ -33,6 +33,16 @@ double Smooth::getVal() {
 void Smooth::applyChanges() {
     double dt = t.interval();
     double tmp = pow(k, dt);
-
     value = value * tmp + valueWant * (1. - tmp);
+}
+
+// Advanced usage
+
+void Smooth::applyChangesManual(double dt) {
+    double tmp = pow(k, dt);
+    value = value * tmp + valueWant * (1. - tmp);
+}
+
+double Smooth::getValManual() {
+    return value;
 }

@@ -19,6 +19,10 @@ public:
     void setK(double);
 
     double getVal();
+
+    // Advanced usage
+    void applyChangesManual(double dt);
+    double getValManual();
 };
 
 #include "smooth.cpp"
