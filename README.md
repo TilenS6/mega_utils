@@ -24,6 +24,8 @@ No crazy build systems, no Makefiles—just **raw power at your fingertips!**
 
 ## ⚔️ **HOW TO USE?** **(EASY LIKE A CLEAN RIGHT HOOK 🥊💥)**  
 
+❗ **Step 0:** Make sure you have ***SDL2***, ***SDL2 image***, ***SDL2 tff***, and ***SDL2 mixer*** packages installed!
+
 💾 **Step 1:** Clone this champion into your project include folder like a pro:  
 ```sh
 git submodule add https://github.com/TilenS6/mega_utils.git include/mega_utils
@@ -35,8 +37,14 @@ git submodule update --init --recursive
 #include "mega_utils/utils_all.h"  // EVERYTHING!!!
 ```
 
-🔥 **Step 3:** Compile like a boss!  
-**No linker configuration** it just **WORKS!!!**
+🔗 **Step 3:** Link used SDL2 packages
+```bash
+"-lSDL2main",
+"-lSDL2",
+"-lSDL2_image",
+"-lSDL2_ttf",
+"-lSDL2_mixer",
+```
 
 💥 **Step 4:** **DESTROY BUGS, CONQUER PROJECTS, AND BECOME A CODING LEGEND!**  
 
