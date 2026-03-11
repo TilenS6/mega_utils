@@ -12,3 +12,5 @@
 #include "sprites.h"
 #include "timer.h"
 #include "profiler.h"
+#include "audio/audio.h"
+#include "audio/speech_sinthesys.h"
