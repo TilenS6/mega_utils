@@ -24,7 +24,7 @@ No crazy build systems, no Makefiles—just **raw power at your fingertips!**
 
 ## ⚔️ **HOW TO USE?** **(EASY LIKE A CLEAN RIGHT HOOK 🥊💥)**  
 
-❗ **Step 0:** Make sure you have ***SDL2***, ***SDL2 image***, ***SDL2 tff***, and ***SDL2 mixer*** packages installed!
+❗ **Step 0:** Make sure you have ***SDL2***, ***SDL2 image***, ***SDL2 tff***, and ***SDL2 mixer*** packages installed if you want ot use them!
 
 💾 **Step 1:** Clone this champion into your project include folder like a pro:  
 ```sh
