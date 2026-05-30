@@ -2,6 +2,7 @@
 #include <iostream>
 #include <math.h>
 #include "camera.h"
+#include "camera3d.h"
 
 #define PI 3.14159265358979323
 #define hPI PI/2
@@ -34,29 +35,6 @@ public:
     void operator=(Point);
 };
 
-class Point3 {
-public:
-    double x, y, z;
-
-    void render(Camera *);
-    Point renderAt(Camera *);
-
-    Point3 operator+(Point3);
-    Point3 operator-(Point3);
-    Point3 operator*(double);
-    Point3 operator/(double);
-    void operator+=(Point3);
-    void operator-=(Point3);
-    void operator+=(double);
-    void operator-=(double);
-    void operator*=(double);
-    void operator/=(double);
-
-    bool operator==(Point3);
-    bool operator!=(Point3);
-    void operator=(Point3);
-};
-
 class Line {
 public:
     Point a, b;
@@ -87,5 +65,28 @@ public:
     void render(Camera *);
 };
 
+// 3D shapes
+
+class Point3 {
+public:
+    double x, y, z;
+
+    Point3 operator+(Point3);
+    Point3 operator-(Point3);
+    Point3 operator*(double);
+    Point3 operator/(double);
+    void operator+=(Point3);
+    void operator-=(Point3);
+    void operator+=(double);
+    void operator-=(double);
+    void operator*=(double);
+    void operator/=(double);
+
+    bool operator==(Point3);
+    bool operator!=(Point3);
+    void operator=(Point3);
+};
+
 #include "shapes.cpp"
+#include "shapes3d.cpp"
 #include "collisions.cpp"

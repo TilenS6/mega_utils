@@ -2,6 +2,7 @@
 #include "sdl2_misc.h"
 #include "basicui.h"
 #include "camera.h"
+#include "camera3d.h"
 #include "FastCont.h"
 #include "keyboard.h"
 #include "mouse.h"
