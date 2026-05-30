@@ -74,7 +74,7 @@ void AudioInterface::audio_callback(void *userdata, Uint8 *stream, int len) {
         for (int j = 0; j < copy_len * LEN_MULT_TO_SAMPLES; ++j) {
             suming_t new_val = ((*(buff_play_pos + j)) * vol * pan_mult[j & 0x1]) >> (BYTES_PER_SAMPLE * 8 * 2 - 1); // from data, *8 to shift whole B, *2 we have two multiplications of 16b vales
             new_val += *((sample_t *)(stream) + j);                                                               // from stream
-            clamp(new_val, SAMPLE_MIN, SAMPLE_MAX);                                                                // clipping
+            clamp_val(new_val, SAMPLE_MIN, SAMPLE_MAX);                                                                // clipping
             *((sample_t *)(stream) + j) = (sample_t)new_val;                                                       // copy
         }
         // memcpy(stream, audioInterfaceGlobal.tracks[i]->buffer + audioInterfaceGlobal.tracks[i]->play_pos, copy_len); // copy
@@ -99,7 +99,7 @@ void AudioInterface::audio_callback(void *userdata, Uint8 *stream, int len) {
             for (int j = 0; j<len * LEN_MULT_TO_SAMPLES; ++j) {
                 suming_t new_val = (buff[j] * volume) >> (BYTES_PER_SAMPLE * 8 - 1); // from data, *8 to shift whole B, -1 signed
                 new_val += *((sample_t *)(stream) + j); // from stream
-                clamp(new_val, SAMPLE_MIN, SAMPLE_MAX); // clipping
+                clamp_val(new_val, SAMPLE_MIN, SAMPLE_MAX); // clipping
                 *((sample_t *)(stream) + j) = (sample_t)new_val; // copy
             }
         }

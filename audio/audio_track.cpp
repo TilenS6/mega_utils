@@ -81,12 +81,12 @@ void AudioTrack::setLooping(bool st) {
 }
 void AudioTrack::setVolume(double newVolume) {
     if (!inited) return;
-    clamp(newVolume, 0., 10.);
+    clamp_val(newVolume, 0., 10.);
     volume = newVolume * MAX_VOLUME;
 }
 void AudioTrack::setPan(double newPan) {
     if (!inited) return;
-    clamp(newPan, -1., 1.);
+    clamp_val(newPan, -1., 1.);
     audio_pan = newPan;
 
     calculate_pan();

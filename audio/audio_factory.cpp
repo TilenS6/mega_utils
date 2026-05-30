@@ -11,7 +11,7 @@ void AudioFactory::setActive(bool a) {
     active = a;
 }
 void AudioFactory::setVolume(double v) {
-    clamp(v, 0., 1.);
+    clamp_val(v, 0., 1.);
     volume = v;
 }
 

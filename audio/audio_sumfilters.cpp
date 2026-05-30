@@ -28,7 +28,7 @@ void SumFilters::process(sample_t *buffer, int len) {
         }
     }
     for (int i = 0; i < len; i++) {
-        clamp(sum[i], SAMPLE_MIN, SAMPLE_MAX); // clamp the sum to prevent overflow
+        clamp_val(sum[i], SAMPLE_MIN, SAMPLE_MAX); // clamp the sum to prevent overflow
         tmp[i] = sum[i];
     }
     if (aplied_filters > 0) {

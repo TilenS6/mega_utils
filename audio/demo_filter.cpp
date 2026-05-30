@@ -20,7 +20,7 @@ public:
             double x = (double)buffer[i] / SAMPLE_MAX;  // normalize to [-1,1]
             double y = b0*x + b1*x1[channel] + b2*x2[channel] - a1*y1[channel] - a2*y2[channel];
             suming_t yy = y * SAMPLE_MAX; // scale back to original range
-            buffer[i] = clamp(yy, SAMPLE_MIN, SAMPLE_MAX);
+            buffer[i] = clamp_val(yy, SAMPLE_MIN, SAMPLE_MAX);
             x2[channel] = x1[channel]; x1[channel] = x;
             y2[channel] = y1[channel]; y1[channel] = y;
         }

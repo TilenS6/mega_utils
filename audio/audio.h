@@ -70,7 +70,7 @@ typedef int64_t suming_t;
 
 #define LEN_MULT_TO_SAMPLES (1. / BYTES_PER_SAMPLE) //! IMPORTANT, ref: 7419
 #define MAX_VOLUME (sample_t)(pow(2, BYTES_PER_SAMPLE*8 - 1) - 1) // *8 -1 because of signed values
-#define clamp(val, lo, hi) val = ((val < lo) ? lo : ((val > hi) ? hi : val))
+#define clamp_val(val, lo, hi) val = ((val < lo) ? lo : ((val > hi) ? hi : val))
 
 class AudioInterface;
 class AudioTrack;
