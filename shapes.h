@@ -54,6 +54,7 @@ public:
     void setRadius(double);
     double getRadius();
     void render(Camera *);
+    void renderRaw(Camera *);
 };
 
 class Rectng {
@@ -70,6 +71,8 @@ public:
 class Point3 {
 public:
     double x, y, z;
+
+    Point3(double _x = 0, double _y = 0, double _z = 0) : x(_x), y(_y), z(_z) {}
 
     Point3 operator+(Point3);
     Point3 operator-(Point3);

@@ -99,9 +99,18 @@ void Circle::setRadius(double _r) {
     rPow2 = r * r;
 }
 double Circle::getRadius() { return r; }
-void Circle::render(Camera *cam) {
+void Circle::render(Camera *cam) { // TODO optimize
     double ax = (a.x - cam->x) * cam->scale;
     double ay = cam->h - (a.y - cam->y) * cam->scale;
+    if (ax - r > cam->w || ax + r < 0 || ay - r > cam->h || ay + r < 0) return;
+    for (int y = -r; y <= r; ++y)
+        for (int x = -r; x <= r; ++x)
+            if (x * x + y * y <= rPow2)
+                SDL_RenderDrawPoint(cam->r, ax + x, ay + y);
+}
+void Circle::renderRaw(Camera *cam) { // TODO optimize
+    double ax = a.x;
+    double ay = a.y;
     if (ax - r > cam->w || ax + r < 0 || ay - r > cam->h || ay + r < 0) return;
     for (int y = -r; y <= r; ++y)
         for (int x = -r; x <= r; ++x)
