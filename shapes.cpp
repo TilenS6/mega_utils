@@ -1,15 +1,23 @@
 #include "shapes.h"
 
-void Point::render(Camera *cam) {
+void Point::render(Camera* cam) {
     double tx = (x - cam->x) * cam->scale;
+#ifdef LEGACY_COORDINATE_SYSTEM
     double ty = cam->h - (y - cam->y) * cam->scale;
+#else
+    double ty = (y - cam->y) * cam->scale;
+#endif
     if (tx < 0 || ty < 0 || tx >= cam->w || ty >= cam->h) return;
     SDL_RenderDrawPoint(cam->r, tx, ty);
 }
-Point Point::getRenderPos(Camera *cam) {
+Point Point::getRenderPos(Camera* cam) {
     Point t;
     t.x = (x - cam->x) * cam->scale;
+#ifdef LEGACY_COORDINATE_SYSTEM
     t.y = cam->h - (y - cam->y) * cam->scale;
+#else
+    t.y = (y - cam->y) * cam->scale;
+#endif
     return t;
 }
 
@@ -73,11 +81,16 @@ void Point::operator=(Point a) {
     y = a.y;
 }
 
-void Line::render(Camera *cam) {
+void Line::render(Camera* cam) {
     double ax = (a.x - cam->x) * cam->scale;
-    double ay = cam->h - (a.y - cam->y) * cam->scale;
     double bx = (b.x - cam->x) * cam->scale;
+#ifdef LEGACY_COORDINATE_SYSTEM
+    double ay = cam->h - (a.y - cam->y) * cam->scale;
     double by = cam->h - (b.y - cam->y) * cam->scale;
+#else
+    double ay = (a.y - cam->y) * cam->scale;
+    double by = (b.y - cam->y) * cam->scale;
+#endif
     if (ax < 0 || ay < 0 || bx < 0 || by < 0 || ax >= cam->w || ay >= cam->h || bx >= cam->w || by >= cam->h) return;
     SDL_RenderDrawLine(cam->r, ax, ay, bx, by);
 }
@@ -99,16 +112,21 @@ void Circle::setRadius(double _r) {
     rPow2 = r * r;
 }
 double Circle::getRadius() { return r; }
-void Circle::render(Camera *cam) { // TODO optimize
+void Circle::render(Camera* cam) {  // TODO optimize
+    double rPow2Scaled = cam->scale * rPow2;
     double ax = (a.x - cam->x) * cam->scale;
+#ifdef LEGACY_COORDINATE_SYSTEM
     double ay = cam->h - (a.y - cam->y) * cam->scale;
+#else
+    double ay = (a.y - cam->y) * cam->scale;
+#endif
     if (ax - r > cam->w || ax + r < 0 || ay - r > cam->h || ay + r < 0) return;
     for (int y = -r; y <= r; ++y)
         for (int x = -r; x <= r; ++x)
-            if (x * x + y * y <= rPow2)
+            if (x * x + y * y <= rPow2Scaled)
                 SDL_RenderDrawPoint(cam->r, ax + x, ay + y);
 }
-void Circle::renderRaw(Camera *cam) { // TODO optimize
+void Circle::renderRaw(Camera* cam) {  // TODO optimize
     double ax = a.x;
     double ay = a.y;
     if (ax - r > cam->w || ax + r < 0 || ay - r > cam->h || ay + r < 0) return;
@@ -118,26 +136,35 @@ void Circle::renderRaw(Camera *cam) { // TODO optimize
                 SDL_RenderDrawPoint(cam->r, ax + x, ay + y);
 }
 
-SDL_Rect Rectng::getRenderPos(Camera *cam) {
+SDL_Rect Rectng::getRenderPos(Camera* cam) {
     SDL_Rect rect;
     rect.w = dimensions.x * cam->scale;
     rect.h = dimensions.y * cam->scale;
 
     rect.x = (a.x - cam->x) * cam->scale;
+
+#ifdef LEGACY_COORDINATE_SYSTEM
     rect.y = (cam->h - (a.y - cam->y) * cam->scale) - rect.w;
+#else
+    rect.y = ((a.y - cam->y) * cam->scale) - rect.w;
+#endif
     return rect;
 }
-SDL_FRect Rectng::getRenderPosF(Camera *cam) {
+SDL_FRect Rectng::getRenderPosF(Camera* cam) {
     SDL_FRect rect;
     rect.w = dimensions.x * cam->scale;
     rect.h = dimensions.y * cam->scale;
 
     rect.x = (a.x - cam->x) * cam->scale;
+#ifdef LEGACY_COORDINATE_SYSTEM
     rect.y = (cam->h - (a.y - cam->y) * cam->scale) - rect.w;
+#else
+    rect.y = ((a.y - cam->y) * cam->scale) - rect.w;
+#endif
     return rect;
 }
 
-void Rectng::render(Camera *cam) {
+void Rectng::render(Camera* cam) {
     SDL_Rect rect = getRenderPos(cam);
     if (rect.x > cam->w) return;
     if (rect.y > cam->h) return;

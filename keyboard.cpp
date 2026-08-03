@@ -16,7 +16,7 @@ void Keyboard::down(SDL_Scancode s) {
 void Keyboard::up(SDL_Scancode s) {
     arr[s / 8] &= ~(1 << (s % 8));
 }
-void Keyboard::update(SDL_Event e) {
+void Keyboard::eventUpdate(SDL_Event e) {
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
         down(e.key.keysym.scancode);
     else if (e.type == SDL_KEYUP)

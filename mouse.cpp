@@ -18,3 +18,14 @@ uint8_t Mouse::update() {
     last_event = ret;
     return ret;
 }
+
+Point Mouse::cameraToWorldPos(Camera* c) {
+    Point p;
+    p.x = (double)x / c->scale + c->x;
+#ifdef LEGACY_COORDINATE_SYSTEM
+    p.y = (double)(c->h - y) / c->scale + c->y;
+#else
+    p.y = (double)y / c->scale + c->y;
+#endif
+    return p;
+}

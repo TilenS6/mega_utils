@@ -12,7 +12,7 @@ public:
     Keyboard();
     void down(SDL_Scancode);
     void up(SDL_Scancode);
-    void update(SDL_Event);
+    void eventUpdate(SDL_Event);
 
     bool get(SDL_Scancode);
     bool pressedNow(SDL_Scancode);

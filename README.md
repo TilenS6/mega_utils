@@ -62,7 +62,12 @@ BOOM. You're always running the latest and the greatest!
 🔔 **THE BELL HAS RUNG. THE FIGHT HAS BEGUN.**  
 👊 **IT’S TIME TO CODE LIKE A CHAMPION!**  
 
+## **❗ COORDINATE SYSTEM CHANGE (3rd April 2026)**
+Heads up, champs 🔔! As of this day the **coordinate origin switched** from (0,0) at the bottom-left to **(0,0) at the top-left**  matching SDL2's convention. If your project still expects the old system, enable backward compatibility **BEFORE** including the headers:
 
+```cpp
+#define LEGACY_COORDINATE_SYSTEM
+```
 
 # TODOs
 - Cross-platform network wrapper (boost.asio)

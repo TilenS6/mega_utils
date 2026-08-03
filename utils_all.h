@@ -1,4 +1,6 @@
 #pragma once
+// Use folowing define to use legacy coordinate system (0,0) is bottom left, y+ up, x+ right. Otherwise (0,0) is top left, y+ down, x+ right.
+// #define LEGACY_COORDINATE_SYSTEM
 #include "sdl2_misc.h"
 #include "basicui.h"
 #include "camera.h"
@@ -6,11 +8,12 @@
 #include "FastCont.h"
 #include "keyboard.h"
 #include "mouse.h"
+#include "controller.h"
 #include "netagent.h"
 #include "particles.h"
 #include "shapes.h"
 #include "smooth.h"
-#include "sprites.h"
+#include "sprite.h"
 #include "timer.h"
 #include "profiler.h"
 #include "audio/audio.h"

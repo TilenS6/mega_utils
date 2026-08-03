@@ -20,6 +20,7 @@ public:
     };
 
     uint8_t update();
+    Point cameraToWorldPos(Camera* c);
 };
 
 #include "mouse.cpp"
