@@ -1,8 +1,7 @@
 #pragma once
-#ifndef __linux__ 
-
+#ifndef __linux__
+// Its Windows
 #define WIN32_LEAN_AND_MEAN
-
 
 #include <windows.h>
 #include <ws2tcpip.h>
@@ -23,7 +22,7 @@ class NetClient {
     SOCKET ConnectSocket;
     int err;
 
-public:
+   public:
     char recvbuf[MAX_BUF_LEN];
     int init_recvbuflen = MAX_BUF_LEN;
     int recvbuflen = MAX_BUF_LEN;
@@ -35,7 +34,7 @@ public:
 
     int getConnectionStatus();
 
-    int sendData(const char *, int);
+    int sendData(const char*, int);
     int recieveData();
 };
 
@@ -75,14 +74,14 @@ class NetServer {
     SOCKET ListenSocket = INVALID_SOCKET;
     FastCont<ClientConnection> ClientSockets;
 
-public:
+   public:
     ~NetServer();
     void init();
 
-    int acceptNewClient(); // return: -1 no_new_connection/error,  >= 0 ID of new accepted client
+    int acceptNewClient();  // return: -1 no_new_connection/error,  >= 0 ID of new accepted client
     int recieveData(int);
-    int sendData(int, const char *, int);
-    RecievedData *getLastData(int);
+    int sendData(int, const char*, int);
+    RecievedData* getLastData(int);
 
     void closeConnection(int);
 };
@@ -97,17 +96,43 @@ class NetServerUDP {
     FastCont<ClientData> clientData;
     SOCKET ListenSocket = INVALID_SOCKET;
 
-public:
+   public:
     ~NetServerUDP();
     void init();
-    int recieveData(bool *);
-    int sendData(int, const char *, int);
+    int recieveData(bool*);
+    int sendData(int, const char*, int);
 
-    RecievedData *getLastData(int);
+    RecievedData* getLastData(int);
 };
 
 #include "netagent_c.cpp"
 #include "netagent_s.cpp"
 #include "netagent_s_udp.cpp"
 
-#endif // __linux__
+#else
+// Its Linux
+#include <bits/stdc++.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <string>
+using namespace std;
+
+class NetClientUDP {
+    int port;
+    string ip;
+    int sockfd;
+    struct sockaddr_in servaddr;
+    socklen_t socketlen;
+
+   public:
+    NetClientUDP(int port, string ip);
+    ~NetClientUDP();
+    void send(const char* data, int len);
+    int receive(char* buffer, int maxlen);
+};
+
+#include "netagent_c_linux.cpp"
+#endif
